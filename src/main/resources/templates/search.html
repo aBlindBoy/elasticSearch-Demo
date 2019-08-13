@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<input type="text" list="itemlist" class="search" autocomplete="off">
+
+<datalist id="itemlist">
+    <!--<option>常用001</option>
+    <option>item2</option>
+    <option>item3</option>
+    <option>item4</option>
+    <option>item5</option>
+    <option>item6</option>-->
+</datalist>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="application/javascript">
+
+    $(function () {
+        $(".search").keyup(function () {
+            var query = $(".search").val();
+            console.log("触发");
+            $.ajax({
+                url: "/suggest",
+                type: "POST",
+                data: {
+                    query: query
+                },
+                success: function (data) {
+                    console.log(data);
+                    var dataHtml = '';
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                        dataHtml += '<option value=' + data[i] + '/>'
+                    }
+                    $("#itemlist").children().filter("option").remove();
+                    $("#itemlist").html(dataHtml);
+                }
+            })
+        })
+
+
+    });
+
+
+
+
+</script>
+</body>
+</html>
